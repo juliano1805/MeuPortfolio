@@ -1,3 +1,3 @@
-export * from './articles';
-export * from './super';
-export * from './utils'; 
+export * from '@/lib/articles';
+export * from '@/lib/super';
+export * from '@/lib/utils'; 
