@@ -1,62 +1,76 @@
-# MLOps Portfolio Forge
+# Portfolio - Engenheiro de Dados & MLOps
 
-## Sobre o projeto
+Portfólio profissional desenvolvido para demonstrar projetos e experiências em Engenharia de Dados e MLOps.
 
-Este projeto é um portfólio desenvolvido para demonstrar práticas de MLOps e front-end moderno utilizando React, Vite, TypeScript, shadcn-ui e Tailwind CSS.
+## 🚀 Tecnologias
 
-## Como editar este código?
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [React Router](https://reactrouter.com/)
+- [React Query](https://tanstack.com/query/latest)
 
-Você pode editar este projeto de diversas formas:
+## ✨ Funcionalidades
 
-### Usando seu editor de código favorito
+- Design moderno e responsivo
+- Seções para projetos, experiências e artigos
+- Animações suaves e interativas
+- Tema escuro por padrão
+- Otimizado para SEO
+- Performance otimizada
 
-1. Clone o repositório usando a URL do projeto:
-    ```sh
-    git clone <YOUR_GIT_URL>
-    ```
-2. Acesse o diretório do projeto:
-    ```sh
-    cd <YOUR_PROJECT_NAME>
-    ```
-3. Instale as dependências necessárias:
-    ```sh
-    npm install
-    ```
-4. Inicie o servidor de desenvolvimento com recarregamento automático:
-    ```sh
-    npm run dev
-    ```
+## 🛠️ Como executar
 
-### Editando diretamente no GitHub
+1. Clone o repositório:
+```bash
+git clone https://github.com/juliano1805/MeuPortfolio.git
+```
 
-- Navegue até o arquivo desejado.
-- Clique no botão de edição (ícone de lápis) no canto superior direito da visualização do arquivo.
-- Faça suas alterações e confirme o commit.
+2. Instale as dependências:
+```bash
+cd MeuPortfolio
+npm install
+```
 
-### Usando o GitHub Codespaces
+3. Execute o projeto em desenvolvimento:
+```bash
+npm run dev
+```
 
-- Acesse a página principal do repositório.
-- Clique no botão "Code" (verde) no topo direito.
-- Selecione a aba "Codespaces".
-- Clique em "New codespace" para iniciar um novo ambiente Codespace.
-- Edite os arquivos diretamente no Codespace e faça commit/push das alterações.
+4. Para build de produção:
+```bash
+npm run build
+```
 
-## Tecnologias utilizadas
+## 📦 Estrutura do Projeto
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+  ├── assets/        # Imagens e recursos estáticos
+  ├── components/    # Componentes React
+  │   ├── ui/       # Componentes de UI reutilizáveis
+  │   └── ...       # Componentes específicos
+  ├── hooks/        # Custom hooks
+  ├── lib/          # Utilitários e configurações
+  ├── pages/        # Páginas da aplicação
+  └── ...
+```
 
-## Como fazer o deploy deste projeto?
+## 🌐 Deploy
 
-Você pode fazer o deploy deste projeto em qualquer serviço de hospedagem de aplicações front-end, como Vercel, Netlify ou GitHub Pages.  
-Consulte a documentação do serviço escolhido para detalhes sobre deploy de projetos React/Vite.
+O site está hospedado no GitHub Pages e pode ser acessado em:
+https://juliano1805.github.io/MeuPortfolio/
 
-## Como conectar um domínio personalizado?
+## 📝 Licença
 
-A configuração de domínio personalizado depende do serviço de hospedagem utilizado.  
-Consulte a documentação do provedor para instruções detalhadas sobre como conectar um domínio ao seu projeto.
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## 📧 Contato
+
+- Email: julianomatheusferreira@gmail.com
+- LinkedIn: [Juliano Matheus](https://linkedin.com/in/juliano-matheus-a37745297/)
+- GitHub: [@juliano1805](https://github.com/juliano1805)
 
 ---
