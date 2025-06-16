@@ -4,8 +4,8 @@
       "id": "1",
       "title": "T.E.T.E.U IA",
       "description": "",
-      "coverImage": "",
-      "publishedDate": "",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/6bd242a0-b690-42c3-80ae-f7c5d14751db/T.E.T.E.U/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "May 26, 2025",
       "tags": [
         "Blog"
       ],
@@ -15,23 +15,12 @@
       "id": "2",
       "title": "Pipeline MLOPs - THEMIS",
       "description": "",
-      "coverImage": "",
-      "publishedDate": "",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "June 12, 2025",
       "tags": [
         "Blog"
       ],
       "url": "https://julianomatheusblog.super.site/pipeline-mlops-themis"
-    },
-    {
-      "id": "3",
-      "title": "",
-      "description": "",
-      "coverImage": "",
-      "publishedDate": "",
-      "tags": [
-        "Blog"
-      ],
-      "url": "https://julianomatheusblog.super.site/21314e0439d280f2bffde8fa414fea6e"
     }
   ]
 }
