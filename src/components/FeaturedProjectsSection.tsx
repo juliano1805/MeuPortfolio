@@ -3,9 +3,28 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import mlopsImage from '@/assets/images/mlops-pipeline.jpg';
 import teteuImage from '@/assets/images/teteu-new.png.jpg';
+import portfolioImage from '@/assets/images/portfolio.jpg';
 
 const FeaturedProjectsSection = () => {
   const featuredProjects = [
+    {
+      title: "Portfólio Profissional",
+      description: "Portfólio moderno e responsivo desenvolvido com React e TypeScript, demonstrando projetos e experiências em Engenharia de Dados e MLOps. Implementa boas práticas de desenvolvimento web, SEO e performance.",
+      image: portfolioImage,
+      imagePosition: "object-center",
+      metrics: "100% de performance no Lighthouse",
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Vite", "GitHub Pages"],
+      link: "https://github.com/juliano1805/MeuPortfolio",
+      isExternal: true,
+      internalLink: "/projects/portfolio",
+      highlights: [
+        "Design moderno e responsivo",
+        "Otimização para SEO",
+        "Deploy automatizado com GitHub Actions",
+        "Animações suaves e interativas",
+        "Tema escuro por padrão"
+      ]
+    },
     {
       title: "Pipeline MLOps - Detecção de Fraudes",
       description: "Pipeline completa de MLOps para detecção de fraudes em transações financeiras, implementando boas práticas de produção, automação e rastreabilidade. Projeto que demonstra expertise em engenharia de ML em produção, com métricas impressionantes de precisão (99.95%) e recall (78.57%).",

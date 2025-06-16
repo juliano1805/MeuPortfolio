@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import MLOpsPipeline from "./pages/projects/MLOpsPipeline";
 import TETEUIA from "./pages/projects/TETEUIA";
+import Portfolio from "./pages/projects/Portfolio";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/projects/mlops-pipeline" element={<MLOpsPipeline />} />
           <Route path="/projects/teteu-ia" element={<TETEUIA />} />
+          <Route path="/projects/portfolio" element={<Portfolio />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
