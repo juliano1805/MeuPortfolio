@@ -10,7 +10,7 @@ const FeaturedProjectsSection = () => {
     {
       title: "Portfólio Profissional",
       description: "Portfólio moderno e responsivo desenvolvido com React e TypeScript, demonstrando projetos e experiências em Engenharia de Dados e MLOps. Implementa boas práticas de desenvolvimento web, SEO e performance.",
-      image: portfolioImage,
+      image: teteuImage,
       imagePosition: "object-center",
       metrics: "100% de performance no Lighthouse",
       technologies: ["React", "TypeScript", "Tailwind CSS", "Vite", "GitHub Pages"],
