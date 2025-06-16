@@ -7,7 +7,7 @@ const ArticlesSection = () => {
   const articles = getLatestArticles(3);
 
   return (
-    <section className="py-20 bg-background">
+    <section id="articles" className="py-20 bg-background">
       <div className="container">
         <div className="flex flex-col items-center text-center mb-12">
           <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">Artigos Recentes</h2>
@@ -24,7 +24,7 @@ const ArticlesSection = () => {
                   <img
                     src={article.coverImage}
                     alt={article.title}
-                    className="object-cover w-full h-full"
+                    className="object-cover object-bottom w-full h-full"
                   />
                 </div>
                 <CardTitle className="line-clamp-2">{article.title}</CardTitle>
