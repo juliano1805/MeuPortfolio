@@ -1,67 +1,88 @@
-# Portfolio - Engenheiro de Dados & MLOps
+# Portfólio Profissional — Juliano Matheus
 
-Portfólio profissional desenvolvido para demonstrar projetos e experiências em Engenharia de Dados e MLOps.
+Portfólio desenvolvido para apresentar projetos, experiências, artigos e habilidades em Engenharia de Dados, MLOps e Desenvolvimento de Software. O objetivo é demonstrar expertise técnica, visão de produto e capacidade de entrega em ambientes modernos de tecnologia.
 
-## 🚀 Tecnologias
+## 🚀 Tecnologias Utilizadas
 
-- [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Shadcn/ui](https://ui.shadcn.com/)
-- [React Router](https://reactrouter.com/)
-- [React Query](https://tanstack.com/query/latest)
+- **React** — Biblioteca para interfaces modernas e reativas
+- **TypeScript** — Tipagem estática para maior robustez
+- **Vite** — Bundler rápido para desenvolvimento e produção
+- **Tailwind CSS** — Estilização utilitária e responsiva
+- **shadcn/ui** — Componentes de UI acessíveis e customizáveis
+- **React Router** — Navegação SPA
+- **React Query** — Gerenciamento de dados assíncronos
+- **Radix UI** — Componentes acessíveis e modernos
 
-## ✨ Funcionalidades
+## ✨ Diferenciais do Projeto
 
-- Design moderno e responsivo
-- Seções para projetos, experiências e artigos
-- Animações suaves e interativas
-- Tema escuro por padrão
-- Otimizado para SEO
-- Performance otimizada
+- **Design moderno e responsivo** com animações suaves
+- **Seção de Artigos Recentes** com navegação direta pelo menu
+- **Títulos com gradiente de cor** para destaque visual
+- **Imagens dos artigos sempre mostrando o rodapé**
+- **Tema escuro por padrão**
+- **SEO e performance otimizados**
+- **Deploy automatizado no GitHub Pages**
 
-## 🛠️ Como executar
+## 📚 Funcionalidades
+
+- Exibição de projetos em destaque e estudos de caso reais
+- Listagem de experiências profissionais e acadêmicas
+- Artigos recentes integrados e linkados ao blog externo
+- Navegação fluida entre seções
+- Layout adaptável para dispositivos móveis e desktop
+
+## 🛠️ Como Executar Localmente
 
 1. Clone o repositório:
-```bash
-git clone https://github.com/juliano1805/MeuPortfolio.git
-```
+   ```bash
+   git clone https://github.com/juliano1805/MeuPortfolio.git
+   ```
 
 2. Instale as dependências:
-```bash
-cd MeuPortfolio
-npm install
-```
+   ```bash
+   cd MeuPortfolio
+   npm install
+   ```
 
-3. Execute o projeto em desenvolvimento:
-```bash
-npm run dev
-```
+3. Execute o projeto em modo desenvolvimento:
+   ```bash
+   npm run dev
+   ```
 
-4. Para build de produção:
-```bash
-npm run build
-```
+4. Para gerar o build de produção:
+   ```bash
+   npm run build
+   ```
+
+## 🌐 Deploy no GitHub Pages
+
+1. Gere o build:
+   ```bash
+   npm run build
+   ```
+
+2. Publique:
+   ```bash
+   npx gh-pages -d dist
+   ```
+
+Acesse em: [https://juliano1805.github.io/MeuPortfolio/](https://juliano1805.github.io/MeuPortfolio/)
 
 ## 📦 Estrutura do Projeto
 
 ```
 src/
   ├── assets/        # Imagens e recursos estáticos
-  ├── components/    # Componentes React
-  │   ├── ui/       # Componentes de UI reutilizáveis
-  │   └── ...       # Componentes específicos
-  ├── hooks/        # Custom hooks
-  ├── lib/          # Utilitários e configurações
-  ├── pages/        # Páginas da aplicação
+  ├── components/    # Componentes React e UI
+  ├── hooks/         # Custom hooks
+  ├── lib/           # Utilitários e integrações
+  ├── pages/         # Páginas da aplicação
   └── ...
 ```
 
-## 🌐 Deploy
+## 🤝 Contribuição
 
-O site está hospedado no GitHub Pages e pode ser acessado em:
-https://juliano1805.github.io/MeuPortfolio/
+Sinta-se à vontade para abrir issues ou pull requests para melhorias, correções ou sugestões.
 
 ## 📝 Licença
 
