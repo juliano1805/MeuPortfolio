@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { getLatestArticles } from '@/lib/articles.ts';
+import { getLatestArticles } from '../lib/articles';
 import { ArrowRight, Calendar } from 'lucide-react';
 
 const ArticlesSection = () => {
