@@ -10,7 +10,7 @@ const ArticlesSection = () => {
     <section className="py-20 bg-background">
       <div className="container">
         <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Artigos Recentes</h2>
+          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">Artigos Recentes</h2>
           <p className="text-muted-foreground max-w-2xl">
             Compartilhando conhecimento sobre Engenharia de Dados, MLOps e desenvolvimento de software.
           </p>

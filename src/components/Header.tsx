@@ -41,7 +41,7 @@ const Header = () => {
           <a href="#home" className="text-muted-foreground hover:text-foreground transition-colors">Sobre</a>
           <a href="#projects" className="text-muted-foreground hover:text-foreground transition-colors">Projetos</a>
           <a href="#case-studies" className="text-muted-foreground hover:text-foreground transition-colors">Casos de Estudo</a>
-          <a href="#articles" className="text-muted-foreground hover:text-foreground transition-colors">Blog</a>
+          <a href="#articles" className="text-muted-foreground hover:text-foreground transition-colors">Artigos Recentes</a>
           <a href="#experience" className="text-muted-foreground hover:text-foreground transition-colors">Experiência</a>
           <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contato</a>
         </nav>
@@ -80,7 +80,7 @@ const Header = () => {
                 <a href="#home" className="hover:text-primary transition-colors">Sobre</a>
                 <a href="#projects" className="hover:text-primary transition-colors">Projetos</a>
                 <a href="#case-studies" className="hover:text-primary transition-colors">Casos de Estudo</a>
-                <a href="#articles" className="hover:text-primary transition-colors">Blog</a>
+                <a href="#articles" className="hover:text-primary transition-colors">Artigos Recentes</a>
                 <a href="#experience" className="hover:text-primary transition-colors">Experiência</a>
                 <a href="#contact" className="hover:text-primary transition-colors">Contato</a>
               </nav>
