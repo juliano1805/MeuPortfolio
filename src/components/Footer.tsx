@@ -50,7 +50,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
           <p className="mb-4 md:mb-0">
-            © 2024 DataEngineer Portfolio. Construído com React, Tailwind CSS e muita dedicação.
+            © 2025 DataEngineer Portfolio. Construído com React, Tailwind CSS e muita dedicação.
           </p>
           <div className="flex space-x-6">
             <span className="font-mono">
