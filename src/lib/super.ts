@@ -10,8 +10,8 @@ interface SuperArticle {
 
 export async function getArticles(): Promise<SuperArticle[]> {
   try {
-    // URL do seu site no Super.so
-    const response = await fetch('https://seu-site.super.site/api/articles');
+    // URL correta do seu site no Super.so
+    const response = await fetch('https://julianomatheusblog.super.site/api/articles');
     const data = await response.json();
 
     return data.map((article: any) => ({
