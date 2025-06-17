@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { getArticles } from '@/lib/super';
-import { ArrowRight, Calendar } from 'lucide-react';
+import { ArrowRight, Calendar, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface Article {
@@ -17,23 +16,28 @@ interface Article {
 const ArticlesSection = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const fetchedArticles = await getArticles();
-        setArticles(fetchedArticles.slice(0, 3)); // Pegando os 3 artigos mais recentes
+        setLoading(true);
+        const response = await fetch('/MeuPortfolio/data/articles.json');
+        if (!response.ok) {
+          throw new Error('Erro ao carregar artigos');
+        }
+        const data = await response.json();
+        setArticles(data.articles.slice(0, 3));
+        setError(null);
       } catch (error) {
-        console.error('Erro ao buscar artigos:', error);
+        console.error('Erro ao carregar artigos:', error);
+        setError('Não foi possível carregar os artigos. Tente novamente mais tarde.');
       } finally {
         setLoading(false);
       }
     };
 
     fetchArticles();
-    // Atualiza os artigos a cada 5 minutos
-    const interval = setInterval(fetchArticles, 5 * 60 * 1000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -47,7 +51,13 @@ const ArticlesSection = () => {
         </div>
 
         {loading ? (
-          <div className="text-center">Carregando artigos...</div>
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : error ? (
+          <div className="text-center py-12 text-destructive">
+            {error}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {articles.map((article) => (
