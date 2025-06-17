@@ -26,6 +26,15 @@
       "publishedDate": "15 de Maio, 2024",
       "tags": ["Análise de Dados", "Power BI", "Educação"],
       "url": "https://julianomatheusblog.super.site/analise-dados-educacionais"
+    },
+    {
+      "id": "4",
+      "title": "Análise de Dados com Python",
+      "description": "Exploração e análise de dados utilizando Python, pandas e outras bibliotecas para extrair insights valiosos.",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "18 de Junho, 2024",
+      "tags": ["Python", "Análise de Dados", "Pandas"],
+      "url": "https://julianomatheusblog.super.site/analise-dados-python"
     }
   ]
 }
