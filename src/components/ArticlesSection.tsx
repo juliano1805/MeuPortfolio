@@ -2,9 +2,24 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { getLatestArticles } from '@/lib/articles';
 import { ArrowRight, Calendar } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 const ArticlesSection = () => {
-  const articles = getLatestArticles(3);
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch('/MeuPortfolio/data/articles.json');
+        const data = await response.json();
+        setArticles(data.articles.slice(0, 3));
+      } catch (error) {
+        console.error('Erro ao carregar artigos:', error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
 
   return (
     <section id="articles" className="py-20 bg-background">
