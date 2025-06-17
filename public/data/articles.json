@@ -17,6 +17,24 @@
       "publishedDate": "12 de Junho, 2024",
       "tags": ["MLOps", "Machine Learning", "DevOps"],
       "url": "https://julianomatheusblog.super.site/pipeline-mlops-themis"
+    },
+    {
+      "id": "3",
+      "title": "Desenvolvimento de Chatbot com IA",
+      "description": "Criação de um chatbot inteligente utilizando técnicas avançadas de processamento de linguagem natural e machine learning.",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/6bd242a0-b690-42c3-80ae-f7c5d14751db/T.E.T.E.U/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "15 de Junho, 2024",
+      "tags": ["IA", "NLP", "Chatbot"],
+      "url": "https://julianomatheusblog.super.site/chatbot-ia"
+    },
+    {
+      "id": "4",
+      "title": "Análise de Dados com Python",
+      "description": "Exploração e análise de dados utilizando Python, pandas e outras bibliotecas para extrair insights valiosos.",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "18 de Junho, 2024",
+      "tags": ["Python", "Análise de Dados", "Pandas"],
+      "url": "https://julianomatheusblog.super.site/analise-dados-python"
     }
   ]
 }
