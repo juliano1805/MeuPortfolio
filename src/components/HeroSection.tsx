@@ -20,7 +20,7 @@ const HeroSection = () => {
               <span className="block mt-4">Dados em Valor</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Apaixonado por transformar dados em valor, mesmo em início de carreira, já lidero projetos complexos com visão de produto e aplicação prática como a criação de uma pipeline completa de MLOps e o desenvolvimento do TETEU IA, uma aplicação de inteligência artificial funcional. Busco desafios que ampliem os limites da tecnologia, aliando automação, performance e inteligência.
+              Apaixonado por transformar dados em valor através de projetos complexos com visão de produto e aplicação prática, como a criação de uma pipeline completa de MLOps e o desenvolvimento do TETEU IA, uma aplicação de inteligência artificial funcional. Busco desafios que ampliem os limites da tecnologia, aliando automação, performance e inteligência.
             </p>
           </div>
 
