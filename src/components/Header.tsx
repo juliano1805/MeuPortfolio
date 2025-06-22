@@ -56,7 +56,7 @@ const Header = () => {
              className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
             <Linkedin size={20} />
           </a>
-          <a href="mailto:contact@dataengineer.com"
+          <a href="mailto:julianomatheusferreira@gmail.com"
              className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
             <Mail size={20} />
           </a>

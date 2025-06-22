@@ -1,77 +1,92 @@
-import { ArrowUp, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowUp, Github, Linkedin, Mail, Coffee } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 
 const Footer = () => {
+  const { elementRef, isVisible } = useScrollAnimation();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-card border-t border-border">
-      <div className="container mx-auto px-4 py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center space-x-2 mb-6 md:mb-0">
-            <div className="w-8 h-8 bg-gradient-to-r from-tech-blue to-tech-green rounded-md flex items-center justify-center">
-              <span className="text-background font-bold text-sm">JM</span>
-            </div>
-            <span className="font-semibold text-lg">Juliano Matheus</span>
+    <footer className="bg-card border-t border-border py-12 relative">
+      <div className="container mx-auto px-4">
+        <div 
+          ref={elementRef}
+          className={`text-center scroll-animate ${isVisible ? 'animate-in' : ''}`}
+        >
+          {/* Links Sociais */}
+          <div className="flex justify-center space-x-6 mb-8">
+            <a 
+              href="https://github.com/juliano1805" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group hover-lift p-3 rounded-full bg-tech-gray-800 border border-tech-gray-700 hover:border-tech-blue transition-all duration-300"
+            >
+              <Github className="h-6 w-6 text-muted-foreground group-hover:text-tech-blue transition-colors" />
+            </a>
+            
+            <a 
+              href="https://linkedin.com/in/juliano-matheus-a37745297/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group hover-lift p-3 rounded-full bg-tech-gray-800 border border-tech-gray-700 hover:border-tech-blue transition-all duration-300"
+            >
+              <Linkedin className="h-6 w-6 text-muted-foreground group-hover:text-tech-blue transition-colors" />
+            </a>
+            
+            <a 
+              href="mailto:julianomatheusferreira@gmail.com"
+              className="group hover-lift p-3 rounded-full bg-tech-gray-800 border border-tech-gray-700 hover:border-tech-blue transition-all duration-300"
+            >
+              <Mail className="h-6 w-6 text-muted-foreground group-hover:text-tech-blue transition-colors" />
+            </a>
           </div>
 
-          <div className="flex items-center space-x-8 mb-6 md:mb-0">
-            <nav className="flex space-x-6">
-              <a href="#home" className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-                Home
-              </a>
-              <a href="#about" className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-                Sobre
-              </a>
-              <a href="#projects" className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-                Projetos
-              </a>
-              <a href="#articles" className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-                Artigos
-              </a>
-              <a href="#contact" className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-                Contato
-              </a>
-            </nav>
+          {/* Informações */}
+          <div className="space-y-4 mb-8">
+            <h3 className="text-2xl font-bold text-foreground">
+              Juliano Matheus
+            </h3>
+            <p className="text-muted-foreground max-w-md mx-auto">
+              Engenheiro de Dados apaixonado por transformar dados em insights valiosos através de soluções inovadoras em Machine Learning e automação.
+            </p>
           </div>
 
-          <Button 
-            onClick={scrollToTop}
-            size="sm"
-            variant="outline"
-            className="border-tech-blue text-tech-blue hover:bg-tech-blue hover:text-background group"
-          >
-            <ArrowUp className="mr-2 group-hover:-translate-y-1 transition-transform" size={16} />
-            Topo
-          </Button>
-        </div>
-
-        <div className="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p className="mb-4 md:mb-0">
-            © 2025 DataEngineer Portfolio. Construído com React, Tailwind CSS e muita dedicação.
-          </p>
-          <div className="flex space-x-6">
-            <span className="font-mono">
-              Última atualização: {new Date().toLocaleDateString('pt-BR')}
-            </span>
+          {/* Links Rápidos */}
+          <div className="flex flex-wrap justify-center gap-8 mb-8">
+            {[
+              { href: '#home', label: 'Home' },
+              { href: '#about', label: 'Sobre' },
+              { href: '#projects', label: 'Projetos' },
+              { href: '#case-studies', label: 'Estudos de Caso' },
+              { href: '#articles', label: 'Artigos' },
+              { href: '#experience', label: 'Experiência' },
+              { href: '#contact', label: 'Contato' }
+            ].map((link, index) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-muted-foreground hover:text-tech-blue transition-colors duration-200 hover-lift"
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
-        </div>
 
-        <div className="flex items-center space-x-4 pt-4 border-t border-border">
-          <a href="https://github.com/juliano1805" target="_blank" rel="noopener noreferrer" 
-             className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-            <Github size={20} />
-          </a>
-          <a href="https://www.linkedin.com/in/juliano-matheus-a37745297/" target="_blank" rel="noopener noreferrer"
-             className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-            <Linkedin size={20} />
-          </a>
-          <a href="mailto:contact@dataengineer.com"
-             className="text-muted-foreground hover:text-tech-blue transition-colors duration-200">
-            <Mail size={20} />
-          </a>
+          {/* Copyright */}
+          <div className="border-t border-border pt-8">
+            <p className="text-muted-foreground text-sm">
+              © 2025 Juliano Matheus. Feito com{' '}
+              <Coffee className="inline h-4 w-4 text-amber-500" />
+              {' '}e muito código.
+            </p>
+            <p className="text-muted-foreground text-xs mt-2">
+              Construído com React, TypeScript, Tailwind CSS e Vite
+            </p>
+          </div>
         </div>
       </div>
     </footer>

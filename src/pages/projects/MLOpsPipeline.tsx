@@ -1,6 +1,7 @@
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronsRight, GitBranch, Database, Layers, BrainCircuit, ShieldCheck, Repeat } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import MermaidDiagram from '@/components/ui/MermaidDiagram';
 
 const MLOpsPipeline = () => {
   const architectureSteps = [
@@ -35,6 +36,19 @@ const MLOpsPipeline = () => {
       tools: ["Prometheus", "Grafana", "Python"]
     }
   ];
+
+  const pipelineDiagram = `
+    graph TD;
+        A["Fontes de Dados<br/>(APIs, Bancos de Dados)"] --> B{"Ingestão &<br/>Processamento"};
+        B --> C["Data Lake<br/>(Armazenamento Bruto)"];
+        C --> D{"Modelagem &<br/>Feature Engineering"};
+        D --> E["Feature Store"];
+        E --> F("Treinamento do Modelo");
+        F --> G{"Registro de Modelos"};
+        G --> H["Implantação (Deploy)<br/>(API REST)"];
+        H --> I["Monitoramento &<br/>Retreinamento"];
+        I --> F;
+  `;
 
   return (
     <div className="min-h-screen bg-background text-foreground py-20">
@@ -117,6 +131,13 @@ const MLOpsPipeline = () => {
                 <li>**Gerenciamento de Model Drift e Re-treinamento Automatizado:** Enfrentei a complexidade de monitorar o desempenho do modelo em produção e identificar o "model drift" (degradação do desempenho do modelo ao longo do tempo). Desenvolvi um sistema automatizado com MLflow e Airflow que detecta desvios significativos nas métricas do modelo e dispara processos de re-treinamento e re-deploy, minimizando a intervenção manual e mantendo a acurácia do sistema.</li>
                 <li>**Implementação de CI/CD Robusto para Modelos de ML:** A integração contínua e a entrega contínua (CI/CD) para modelos de Machine Learning apresentaram desafios únicos devido à complexidade de versionamento de código, dados e modelos. Adotei GitHub Actions para automatizar testes unitários, testes de integração e testes de desempenho dos modelos, e criei fluxos de trabalho para empacotamento em Docker e deploy orquestrado em Kubernetes, assegurando a rastreabilidade e a automação de todo o ciclo de vida do modelo.</li>
               </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold mb-4">Arquitetura do Pipeline</h2>
+              <div className="p-8 bg-card border border-border rounded-lg shadow-lg flex justify-center">
+                <MermaidDiagram chart={pipelineDiagram} />
+              </div>
             </section>
           </div>
         </div>

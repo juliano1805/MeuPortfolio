@@ -1,5 +1,3 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import MLOpsPipeline from "./pages/projects/MLOpsPipeline";
 import TETEUIA from "./pages/projects/TETEUIA";
 import Portfolio from "./pages/projects/Portfolio";
+import { Toaster } from "@/components/ui/toaster";
 
 const queryClient = new QueryClient();
 
@@ -15,7 +14,6 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
       <BrowserRouter basename="/MeuPortfolio">
         <Routes>
           <Route path="/" element={<Index />} />

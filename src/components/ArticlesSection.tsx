@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowRight, Calendar, Loader2 } from 'lucide-react';
+import { ArrowRight, Calendar, Loader2, ExternalLink, Tag } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import LoadingSpinner from '@/components/ui/loading-spinner';
 
 interface Article {
   id: string;
@@ -18,11 +20,12 @@ const ArticlesSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const { elementRef, isVisible } = useScrollAnimation({ triggerOnce: false });
+  const { containerRef, visibleItems } = useStaggerAnimation(articles, { triggerOnce: false });
+
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        setLoading(true);
-        
         // Primeiro tenta buscar do arquivo local
         let response = await fetch('/MeuPortfolio/data/articles.json');
         
@@ -93,96 +96,124 @@ const ArticlesSection = () => {
     fetchArticles();
   }, []);
 
+  if (loading) {
+    return (
+      <section id="articles" className="py-20 relative bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <LoadingSpinner size="lg" />
+            <p className="text-muted-foreground mt-4">Carregando artigos...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="articles" className="py-20 relative bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <p className="text-destructive">Erro: {error}</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="articles" className="py-20 bg-background">
-      <div className="container">
-        <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">Artigos Recentes</h2>
-          <p className="text-muted-foreground max-w-2xl">
-            Compartilhando conhecimento sobre Engenharia de Dados, MLOps e desenvolvimento de software.
+    <section id="articles" className="py-20 relative bg-background">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
+              Artigos Recentes
+            </span>
+          </h2>
+          <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+            Compartilhando conhecimento e insights sobre Engenharia de Dados, MLOps e desenvolvimento de software.
           </p>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
-        ) : error ? (
-          <div className="text-center py-12 text-destructive">
-            {error}
+        {articles.length === 0 ? (
+          <div className="text-center">
+            <p className="text-muted-foreground">Nenhum artigo encontrado.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => (
-              <Card key={article.id} className="flex flex-col">
-                <CardHeader>
-                  <div className="aspect-video relative mb-4 rounded-lg overflow-hidden">
-                    <img
-                      src={article.coverImage}
-                      alt={article.title}
-                      className="object-cover object-bottom w-full h-full"
-                    />
+          <div 
+            ref={containerRef}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {articles.map((article, index) => (
+              <article
+                key={article.id}
+                data-index={index}
+                className={`bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${
+                  visibleItems.has(index) ? 'animate-in' : ''
+                }`}
+                style={{ animationDelay: `${index * 200}ms` }}
+              >
+                <div className="relative overflow-hidden h-48">
+                  <img
+                    src={article.coverImage}
+                    alt={article.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+                </div>
+                
+                <div className="p-6">
+                  <div className="flex items-center text-sm text-muted-foreground mb-3">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    {article.publishedDate}
                   </div>
-                  <CardTitle className="line-clamp-2">{article.title}</CardTitle>
-                  <CardDescription className="line-clamp-2">
-                    {article.description}
-                  </CardDescription>
-                  {article.publishedDate && (
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground mt-2">
-                      <Calendar className="h-4 w-4" />
-                      <span>{article.publishedDate}</span>
-                    </div>
+                  
+                  <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-tech-blue transition-colors">
+                    {article.title}
+                  </h3>
+                  
+                  {article.description && (
+                    <p className="text-muted-foreground mb-4 line-clamp-3">
+                      {article.description}
+                    </p>
                   )}
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="flex flex-wrap gap-2">
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {article.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-1 bg-primary/10 text-primary rounded-full text-sm"
+                        className="inline-flex items-center px-2 py-1 bg-tech-blue/20 text-tech-blue text-xs rounded-full font-mono"
                       >
+                        <Tag className="h-3 w-3 mr-1" />
                         {tag}
                       </span>
                     ))}
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    variant="ghost"
-                    className="w-full"
-                    asChild
+                  
+                  <a
+                    href={article.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-tech-blue hover:text-tech-green transition-colors group-hover:translate-x-1"
                   >
-                    <a
-                      href={article.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2"
-                    >
-                      Ler artigo
-                      <ArrowRight className="h-4 w-4" />
-                    </a>
-                  </Button>
-                </CardFooter>
-              </Card>
+                    <span className="mr-2">Ler artigo</span>
+                    <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
+              </article>
             ))}
           </div>
         )}
 
         <div className="text-center mt-12">
-          <Button
-            variant="outline"
+          <Button 
+            variant="outline" 
             size="lg"
-            asChild
+            className="group hover-lift border-tech-blue text-tech-blue hover:bg-tech-blue hover:text-background"
+            onClick={() => window.open('https://julianomatheusblog.super.site', '_blank')}
           >
-            <a
-              href="https://julianomatheusblog.super.site"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2"
-            >
-              Ver todos os artigos
-              <ArrowRight className="h-4 w-4" />
-            </a>
+            Ver Todos os Artigos
+            <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>

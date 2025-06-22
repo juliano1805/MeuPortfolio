@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, Link as LinkIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 
 const ExperienceSection = () => {
   const experiences = [
@@ -80,10 +81,16 @@ const ExperienceSection = () => {
     }
   ];
 
+  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation({ triggerOnce: false });
+  const { containerRef, visibleItems } = useStaggerAnimation(experiences, { triggerOnce: false });
+
   return (
     <section id="experience" className="py-20 relative bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 scroll-animate ${headerVisible ? 'animate-in' : ''}`}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
               Minha Jornada
@@ -94,14 +101,18 @@ const ExperienceSection = () => {
           </p>
         </div>
 
-        <div className="relative space-y-8 py-4">
+        <div ref={containerRef} className="relative space-y-8 py-4">
           <div className="absolute left-5 md:left-10 top-0 h-full w-[2px] bg-tech-gray-700"></div>
 
           {experiences.map((exp, index) => (
-            <div key={exp.id} className="relative pl-10 md:pl-20 group">
+            <div 
+              key={exp.id} 
+              data-index={index}
+              className={`relative pl-10 md:pl-20 group card-stagger ${visibleItems.has(index) ? 'animate-in' : ''}`}
+            >
               <div className="absolute w-4 h-4 bg-tech-blue rounded-full left-5 md:left-10 top-0 transform -translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-300"></div>
 
-              <div className="bg-card border border-border rounded-lg p-6 shadow-lg animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
+              <div className="bg-card border border-border rounded-lg p-6 shadow-lg">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
                   <div>
                     <p className="text-sm font-mono text-muted-foreground mb-2">{exp.period}</p>

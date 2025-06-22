@@ -1,6 +1,8 @@
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 import mlopsImage from '@/assets/images/mlops-pipeline.jpg';
 import teteuImage from '@/assets/images/teteu-new.png.jpg';
 import portfolioImage from '@/assets/images/portfolio.jpg';
@@ -63,10 +65,21 @@ const FeaturedProjectsSection = () => {
     }
   ];
 
+  const { containerRef, visibleItems } = useStaggerAnimation(featuredProjects, { triggerOnce: false });
+  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3, triggerOnce: false });
+
   return (
     <section id="projects" className="py-20 relative">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in">
+      {/* Background decorativo */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="tech-grid absolute inset-0"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 scroll-animate-scale ${headerVisible ? 'animate-in' : ''}`}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
               Projetos
@@ -77,42 +90,60 @@ const FeaturedProjectsSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {featuredProjects.map((project, index) => (
             <div 
               key={project.title}
-              className="group bg-card border border-border rounded-lg overflow-hidden hover:border-tech-blue/50 transition-all duration-300 animate-slide-up h-[750px]"
-              style={{ animationDelay: `${index * 100}ms` }}
+              data-index={index}
+              className={`group bg-card border border-border rounded-lg overflow-hidden hover:border-tech-blue/50 transition-all duration-500 card-stagger h-[750px] ${
+                visibleItems.has(index) ? 'animate-in' : ''
+              }`}
+              style={{ animationDelay: `${index * 200}ms` }}
             >
               <div className="relative overflow-hidden h-full flex flex-col">
-                <div className="relative h-56">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className={`w-full h-full object-cover ${project.imagePosition || 'object-top'} group-hover:scale-105 transition-transform duration-300`}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+                <div className="relative h-56 overflow-hidden">
+                  <div className="absolute inset-0 h-full w-full group-hover:scale-110 transition-transform duration-700">
+                    <img 
+                      src={project.image} 
+                      alt={project.title}
+                      className={`w-full h-full object-cover ${project.imagePosition || 'object-top'}`}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+                  </div>
+                  
+                  {/* Overlay com efeito de hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-tech-blue/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
+                
                 <div className="flex-1 p-6 flex flex-col overflow-y-auto">
-                  <h3 className="text-3xl font-bold mb-3">{project.title}</h3>
-                  <p className="text-muted-foreground mb-4 text-base leading-relaxed">{project.description}</p>
+                  <h3 className="text-3xl font-bold mb-3 group-hover:text-tech-blue transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground mb-4 text-base leading-relaxed">
+                    {project.description}
+                  </p>
+                  
                   {project.highlights && (
                     <ul className="list-disc list-inside text-sm text-muted-foreground mb-4 space-y-2">
                       {project.highlights.map((highlight, i) => (
-                        <li key={i} className="leading-relaxed">{highlight}</li>
+                        <li key={i} className="leading-relaxed group-hover:text-foreground transition-colors duration-300">
+                          {highlight}
+                        </li>
                       ))}
                     </ul>
                   )}
+                  
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.technologies.map((tech) => (
                       <span 
                         key={tech}
-                        className="px-3 py-1.5 bg-tech-blue/20 text-tech-blue text-sm rounded-lg font-mono"
+                        className="px-3 py-1.5 bg-tech-blue/20 text-tech-blue text-sm rounded-lg font-mono hover:bg-tech-blue/30 transition-colors duration-300"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
+                  
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
                     <span className="text-tech-green font-mono text-base">
                       {project.metrics}
@@ -120,7 +151,7 @@ const FeaturedProjectsSection = () => {
                     <div className="flex gap-2">
                       {project.isExternal && (
                         <a href={project.link} target="_blank" rel="noopener noreferrer">
-                          <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4">
+                          <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4 hover-glow">
                             Ver no GitHub
                             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </Button>
@@ -128,7 +159,7 @@ const FeaturedProjectsSection = () => {
                       )}
                       {project.internalLink && (
                         <Link to={project.internalLink}>
-                          <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4">
+                          <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4 hover-glow">
                             Ver Detalhes
                             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </Button>

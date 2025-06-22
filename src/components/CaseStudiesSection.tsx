@@ -1,6 +1,9 @@
 import { BarChart3, Cloud, Database, GitBranch, Monitor, Zap } from 'lucide-react';
+import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 
 const CaseStudiesSection = () => {
+  const { elementRef, isVisible } = useScrollAnimation({ triggerOnce: false });
+  
   const caseStudies = [
     {
       id: 1,
@@ -62,10 +65,15 @@ const CaseStudiesSection = () => {
     }
   ];
 
+  const { containerRef, visibleItems } = useStaggerAnimation(caseStudies, { triggerOnce: false });
+
   return (
     <section id="case-studies" className="py-20 relative bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in">
+        <div 
+          ref={elementRef}
+          className={`text-center mb-16 scroll-animate ${isVisible ? 'animate-in' : ''}`}
+        >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
               Estudos de Caso
@@ -76,10 +84,22 @@ const CaseStudiesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {caseStudies.map((study) => (
-            <div key={study.id} className="bg-card border border-border rounded-lg p-6 shadow-lg animate-slide-up">
-              <h3 className="text-2xl font-bold text-tech-blue mb-2">{study.title}</h3>
+        <div 
+          ref={containerRef}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+        >
+          {caseStudies.map((study, index) => (
+            <div 
+              key={study.id} 
+              data-index={index}
+              className={`bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${
+                visibleItems.has(index) ? 'animate-in' : ''
+              }`}
+              style={{ animationDelay: `${index * 200}ms` }}
+            >
+              <h3 className="text-2xl font-bold text-tech-blue mb-2 group-hover:text-tech-green transition-colors">
+                {study.title}
+              </h3>
               <p className="text-muted-foreground mb-4">{study.description}</p>
 
               <h4 className="text-lg font-semibold mb-2">Desafio</h4>
@@ -100,7 +120,7 @@ const CaseStudiesSection = () => {
                 {study.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 bg-tech-gray-800 text-tech-blue text-sm rounded border border-tech-gray-700 font-mono"
+                    className="px-3 py-1 bg-tech-gray-800 text-tech-blue text-sm rounded border border-tech-gray-700 font-mono hover:bg-tech-blue/20 transition-colors"
                   >
                     {tech}
                   </span>
