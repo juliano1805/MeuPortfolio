@@ -20,10 +20,7 @@ const HeroSection = () => {
               <span className="block mt-4">Dados em Valor</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Como Engenheiro de Dados, sou apaixonado por aplicar meus conhecimentos para construir soluções robustas e inovadoras. 
-              Embora esteja no início da minha carreira, busco desafios que estão na fronteira da tecnologia, 
-              o que me levou a desenvolver projetos complexos de ponta a ponta, como uma pipeline de MLOps totalmente automatizada 
-              e o TETEU IA, uma aplicação de IA funcional.
+              Apaixonado por transformar dados em valor, mesmo em início de carreira, já lidero projetos complexos com visão de produto e aplicação prática como a criação de uma pipeline completa de MLOps e o desenvolvimento do TETEU IA, uma aplicação de inteligência artificial funcional. Busco desafios que ampliem os limites da tecnologia, aliando automação, performance e inteligência.
             </p>
           </div>
 
