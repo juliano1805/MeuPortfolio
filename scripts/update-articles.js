@@ -25,7 +25,16 @@ async function updateArticles() {
         tags: ["Python", "IA", "Desenvolvimento"],
         url: "https://julianomatheusblog.super.site/teteu-ia"
       },
-      // Adicione mais artigos aqui
+      {
+        id: "2",
+        title: "Pipeline MLOps - THEMIS",
+        description: "Desenvolvimento de um pipeline completo de Machine Learning para detecção de fraudes, com foco em produção e boas práticas.",
+        coverImage: "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
+        publishedDate: formatDate(new Date('2024-05-12')),
+        tags: ["MLOps", "Machine Learning", "DevOps"],
+        url: "https://julianomatheusblog.super.site/pipeline-mlops-themis"
+      }
+      // Adicione mais artigos aqui conforme necessário
     ];
 
     // Salvar no arquivo JSON

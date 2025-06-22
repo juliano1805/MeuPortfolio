@@ -2,30 +2,49 @@
   "articles": [
     {
       "id": "1",
-      "title": "T.E.T.E.U IA - Assistente de Código Multiplataforma",
-      "description": "Desenvolvimento de um assistente de programação em Python que integra múltiplas IAs para análise e sugestões de código.",
+      "title": "T.E.T.E.U IA",
+      "description": "",
       "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/6bd242a0-b690-42c3-80ae-f7c5d14751db/T.E.T.E.U/w=1920,quality=90,fit=scale-down",
-      "publishedDate": "26 de Maio, 2024",
-      "tags": ["Python", "IA", "Desenvolvimento"],
+      "publishedDate": "May 26, 2025",
+      "tags": [
+        "Inteligência Artificial",
+        "Python"
+      ],
       "url": "https://julianomatheusblog.super.site/teteu-ia"
     },
     {
       "id": "2",
-      "title": "Pipeline MLOps - THEMIS",
-      "description": "Desenvolvimento de um pipeline completo de Machine Learning para detecção de fraudes, com foco em produção e boas práticas.",
+      "title": "Pipeline MLOPs - THEMIS",
+      "description": "",
       "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
-      "publishedDate": "12 de Maio, 2024",
-      "tags": ["MLOps", "Machine Learning", "DevOps"],
+      "publishedDate": "June 12, 2025",
+      "tags": [
+        "Machine Learning",
+        "Python"
+      ],
       "url": "https://julianomatheusblog.super.site/pipeline-mlops-themis"
     },
     {
       "id": "3",
-      "title": "Análise de Dados Educacionais",
-      "description": "Desenvolvimento de dashboards e relatórios estratégicos para aprimorar a gestão e análise de dados educacionais.",
-      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
-      "publishedDate": "15 de Maio, 2024",
-      "tags": ["Análise de Dados", "Power BI", "Educação"],
-      "url": "https://julianomatheusblog.super.site/analise-dados-educacionais"
+      "title": "Dados na era da IA generativa.",
+      "description": "",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/35d7406c-06e8-4b18-aade-13e1de281e08/JULIANO_MATHEUS/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "June 16, 2025",
+      "tags": [
+        "Inteligência Artificial"
+      ],
+      "url": "https://julianomatheusblog.super.site/meu-blog/dados-na-era-da-ia-generativa"
+    },
+    {
+      "id": "4",
+      "title": "Produtividade com IA.",
+      "description": "",
+      "coverImage": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/e976bc66-8388-4f95-96c7-50766f20d552/JULIANO_MATHEUS/w=1920,quality=90,fit=scale-down",
+      "publishedDate": "June 17, 2025",
+      "tags": [
+        "Inteligência Artificial"
+      ],
+      "url": "https://julianomatheusblog.super.site/meu-blog/produtividade-com-ia"
     }
   ]
 }
