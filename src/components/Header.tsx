@@ -18,7 +18,7 @@ const Header = () => {
     { href: '#home', label: 'Home' },
     { href: '#about', label: 'Sobre' },
     { href: '#projects', label: 'Projetos' },
-    { href: '#case-studies', label: 'Casos de Estudo' },
+    { href: '#case-studies', label: 'Estudos de Caso' },
     { href: '#articles', label: 'Artigos' },
     { href: '#experience', label: 'Experiência' },
     { href: '#contact', label: 'Contato' }
@@ -40,7 +40,7 @@ const Header = () => {
         <nav className="hidden md:flex items-center space-x-6">
           <a href="#home" className="text-muted-foreground hover:text-foreground transition-colors">Sobre</a>
           <a href="#projects" className="text-muted-foreground hover:text-foreground transition-colors">Projetos</a>
-          <a href="#case-studies" className="text-muted-foreground hover:text-foreground transition-colors">Casos de Estudo</a>
+          <a href="#case-studies" className="text-muted-foreground hover:text-foreground transition-colors">Estudos de Caso</a>
           <a href="#articles" className="text-muted-foreground hover:text-foreground transition-colors">Artigos Recentes</a>
           <a href="#experience" className="text-muted-foreground hover:text-foreground transition-colors">Experiência</a>
           <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contato</a>
@@ -79,7 +79,7 @@ const Header = () => {
               <nav className="flex flex-col gap-6 text-lg font-medium mt-8">
                 <a href="#home" className="hover:text-primary transition-colors">Sobre</a>
                 <a href="#projects" className="hover:text-primary transition-colors">Projetos</a>
-                <a href="#case-studies" className="hover:text-primary transition-colors">Casos de Estudo</a>
+                <a href="#case-studies" className="hover:text-primary transition-colors">Estudos de Caso</a>
                 <a href="#articles" className="hover:text-primary transition-colors">Artigos Recentes</a>
                 <a href="#experience" className="hover:text-primary transition-colors">Experiência</a>
                 <a href="#contact" className="hover:text-primary transition-colors">Contato</a>

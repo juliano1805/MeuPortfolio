@@ -68,9 +68,12 @@ const CaseStudiesSection = () => {
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
-              Casos de Estudo
+              Estudos de Caso
             </span>
           </h2>
+          <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+            Análises detalhadas de projetos que demonstram metodologia, processo de desenvolvimento e resultados quantificáveis.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
