@@ -22,10 +22,63 @@ const ArticlesSection = () => {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/MeuPortfolio/data/articles.json');
+        
+        // Primeiro tenta buscar do arquivo local
+        let response = await fetch('/MeuPortfolio/data/articles.json');
+        
         if (!response.ok) {
-          throw new Error('Erro ao carregar artigos');
+          // Se falhar, tenta buscar diretamente do Super.so
+          console.log('Arquivo local não encontrado, tentando buscar do Super.so...');
+          
+          // Tenta buscar do Super.so usando a API
+          try {
+            const superResponse = await fetch('https://julianomatheusblog.super.site/api/articles');
+            if (superResponse.ok) {
+              const superData = await superResponse.json();
+              const formattedArticles = superData.map((article: any) => ({
+                id: article.id,
+                title: article.title,
+                description: article.description,
+                coverImage: article.cover_image,
+                publishedDate: article.published_date,
+                tags: article.tags || [],
+                url: article.url
+              }));
+              setArticles(formattedArticles.slice(0, 3));
+              setError(null);
+              return;
+            }
+          } catch (superError) {
+            console.error('Erro ao buscar do Super.so:', superError);
+          }
+          
+          // Se ambos falharem, usa dados estáticos como fallback
+          console.log('Usando dados estáticos como fallback...');
+          const fallbackArticles = [
+            {
+              id: "1",
+              title: "T.E.T.E.U IA - Assistente de Código Multiplataforma",
+              description: "Desenvolvimento de um assistente de programação em Python que integra múltiplas IAs para análise e sugestões de código.",
+              coverImage: "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/6bd242a0-b690-42c3-80ae-f7c5d14751db/T.E.T.E.U/w=1920,quality=90,fit=scale-down",
+              publishedDate: "26 de Maio, 2024",
+              tags: ["Python", "IA", "Desenvolvimento"],
+              url: "https://julianomatheusblog.super.site/teteu-ia"
+            },
+            {
+              id: "2",
+              title: "Pipeline MLOps - THEMIS",
+              description: "Desenvolvimento de um pipeline completo de Machine Learning para detecção de fraudes, com foco em produção e boas práticas.",
+              coverImage: "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5a777746-05f8-4ce6-9cd8-21bdd71ccc59/THEMIS/w=1920,quality=90,fit=scale-down",
+              publishedDate: "12 de Maio, 2024",
+              tags: ["MLOps", "Machine Learning", "DevOps"],
+              url: "https://julianomatheusblog.super.site/pipeline-mlops-themis"
+            }
+          ];
+          setArticles(fallbackArticles);
+          setError(null);
+          return;
         }
+        
         const data = await response.json();
         setArticles(data.articles.slice(0, 3));
         setError(null);
