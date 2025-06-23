@@ -57,7 +57,7 @@ const HeroSection = () => {
       ></div>
       <div className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-tech-green rounded-full animate-pulse delay-700 blur-sm"></div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 pb-12">
         <div 
           ref={elementRef}
           className={`max-w-4xl mx-auto space-y-12 scroll-animate ${isVisible ? 'animate-in' : ''}`}
@@ -65,15 +65,15 @@ const HeroSection = () => {
           {/* Título Principal com Animação de Texto */}
           <div 
             ref={titleRef}
-            className={`text-center space-y-6 scroll-animate-scale ${titleVisible ? 'animate-in' : ''}`}
+            className={`text-center space-y-4 scroll-animate-scale ${titleVisible ? 'animate-in' : ''}`}
           >
-            <h1 className="text-5xl md:text-7xl font-bold">
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold">
               <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
                 Juliano Matheus
               </span>
             </h1>
             
-            <div className="text-2xl md:text-3xl text-muted-foreground min-h-[2rem]">
+            <div className="text-lg xs:text-xl md:text-3xl text-muted-foreground min-h-[2rem]">
               <TypewriterEffect 
                 words={typewriterWords}
                 speed={80}
@@ -83,16 +83,22 @@ const HeroSection = () => {
               />
             </div>
             
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base xs:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               Transformando dados em insights valiosos através de soluções inovadoras em Machine Learning e automação.
             </p>
           </div>
 
           {/* Botões de Ação com Efeitos Melhorados */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center w-full max-w-xs mx-auto">
             <Button 
               size="lg" 
-              className="group hover-lift bg-gradient-to-r from-tech-blue to-tech-green text-background font-semibold px-8 py-3"
+              className="group hover-lift bg-gradient-to-r from-tech-blue to-tech-green text-background font-semibold w-full sm:w-auto px-6 py-3"
+              onClick={() => {
+                const section = document.getElementById('projects');
+                if (section) {
+                  section.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
             >
               Ver Projetos
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -101,7 +107,7 @@ const HeroSection = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="group hover-lift border-tech-blue text-tech-blue hover:bg-tech-blue hover:text-background px-8 py-3"
+              className="group hover-lift border-tech-blue text-tech-blue hover:bg-tech-blue hover:text-background w-full sm:w-auto px-6 py-3"
             >
               Baixar CV
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
@@ -109,7 +115,7 @@ const HeroSection = () => {
           </div>
 
           {/* Links Sociais com Efeitos Melhorados */}
-          <div className="flex justify-center space-x-6">
+          <div className="flex justify-center space-x-8 mt-2 mb-2">
             <a 
               href="https://github.com/juliano1805" 
               target="_blank" 
@@ -139,7 +145,7 @@ const HeroSection = () => {
           {/* Estatísticas com Contadores Animados */}
           <div 
             ref={statsRef}
-            className={`grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 scroll-animate ${statsVisible ? 'animate-in' : ''}`}
+            className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mt-10 md:mt-16 scroll-animate ${statsVisible ? 'animate-in' : ''}`}
           >
             <div 
               ref={expRef}

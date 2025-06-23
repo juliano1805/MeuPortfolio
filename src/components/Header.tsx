@@ -29,11 +29,11 @@ const Header = () => {
       isScrolled ? 'bg-background/95 backdrop-blur-md border-b border-border' : 'bg-transparent'
     }`}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 sm:space-x-2.5 md:space-x-4">
           <div className="w-8 h-8 bg-gradient-to-r from-tech-blue to-tech-green rounded-md flex items-center justify-center">
             <span className="text-background font-bold text-sm">JM</span>
           </div>
-          <span className="font-semibold text-lg">Juliano Matheus</span>
+          <span className="font-semibold text-base xs:text-lg sm:text-xl md:text-2xl max-w-[120px] truncate md:max-w-none">Juliano Matheus</span>
         </div>
 
         {/* Desktop Navigation */}

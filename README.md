@@ -18,7 +18,7 @@ Portfólio desenvolvido para apresentar projetos, experiências, artigos e habil
 - **Design moderno e responsivo** com animações suaves
 - **Seção de Artigos Recentes** com navegação direta pelo menu
 - **Títulos com gradiente de cor** para destaque visual
-- **Imagens dos artigos sempre mostrando o rodapé**
+- **Artigos atualizados em tempo real**
 - **Tema escuro por padrão**
 - **SEO e performance otimizados**
 - **Deploy automatizado no GitHub Pages**
