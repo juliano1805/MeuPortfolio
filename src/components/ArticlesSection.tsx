@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, Calendar, Loader2, ExternalLink, Tag } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import LoadingSpinner from '@/components/ui/loading-spinner';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface Article {
   id: string;
@@ -15,6 +16,68 @@ interface Article {
   url: string;
 }
 
+function isMobile() {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 640;
+}
+
+// Componente filho para animação fade-in garantida
+function ArticleCard({ article, index, mobile, visible, animationClass, delay, visibleItemsCount }) {
+  const cardRef = useRef(null);
+  const [fadeIn, setFadeIn] = useState(false);
+  useEffect(() => {
+    if (mobile) {
+      setTimeout(() => setFadeIn(true), 50 + index * 80);
+    }
+  }, [mobile]);
+  const shouldBeVisible = mobile || visibleItemsCount === 0 || visible;
+  const cardClass = mobile
+    ? `bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift opacity-0 ${fadeIn ? 'animate-fade-in opacity-100' : ''}`
+    : `bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${shouldBeVisible ? animationClass : 'opacity-0'}`;
+  return (
+    <article
+      key={article.id}
+      data-index={index}
+      ref={cardRef}
+      className={cardClass}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div className="relative overflow-hidden h-48">
+        <img
+          src={article.coverImage}
+          alt={article.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+      </div>
+      <div className="mt-4">
+        <h3 className="text-xl font-bold mb-2 text-tech-blue group-hover:text-tech-green transition-colors">
+          {article.title}
+        </h3>
+        <p className="text-muted-foreground mb-2 text-base leading-relaxed">
+          {article.description}
+        </p>
+        <div className="flex flex-wrap gap-2 mb-2">
+          {article.tags.map((tag) => (
+            <span key={tag} className="px-2 py-1 bg-tech-blue/20 text-tech-blue text-xs rounded font-mono">
+              {tag}
+            </span>
+          ))}
+        </div>
+        <div className="flex items-center text-sm text-muted-foreground">
+          <Calendar className="w-4 h-4 mr-1" />
+          {article.publishedDate}
+        </div>
+      </div>
+      <div className="mt-4 flex justify-end">
+        <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-tech-blue hover:text-tech-green font-semibold flex items-center gap-1">
+          Ler artigo <ExternalLink className="w-4 h-4" />
+        </a>
+      </div>
+    </article>
+  );
+}
+
 const ArticlesSection = () => {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,6 +85,8 @@ const ArticlesSection = () => {
 
   const { elementRef, isVisible } = useScrollAnimation({ triggerOnce: false });
   const { containerRef, visibleItems } = useStaggerAnimation(articles, { triggerOnce: false });
+
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -122,19 +187,14 @@ const ArticlesSection = () => {
   }
 
   return (
-    <section id="articles" className="py-20 relative bg-background">
+    <section id="articles" className="py-16 sm:py-20 px-5 pt-8 pb-8">
+      <h2 className="text-2xl sm:text-4xl font-bold mb-4 text-center">
+        <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">Artigos Recentes</span>
+      </h2>
+      <p className="text-base sm:text-lg text-muted-foreground text-center mb-6">
+        Compartilhando conhecimento e insights sobre Engenharia de Dados, MLOps e desenvolvimento de software.
+      </p>
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
-              Artigos Recentes
-            </span>
-          </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
-            Compartilhando conhecimento e insights sobre Engenharia de Dados, MLOps e desenvolvimento de software.
-          </p>
-        </div>
-
         {articles.length === 0 ? (
           <div className="text-center">
             <p className="text-muted-foreground">Nenhum artigo encontrado.</p>
@@ -142,66 +202,24 @@ const ArticlesSection = () => {
         ) : (
           <div 
             ref={containerRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-visible"
           >
-            {articles.map((article, index) => (
-              <article
-                key={article.id}
-                data-index={index}
-                className={`bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${
-                  visibleItems.has(index) ? 'animate-in' : ''
-                }`}
-                style={{ animationDelay: `${index * 200}ms` }}
-              >
-                <div className="relative overflow-hidden h-48">
-                  <img
-                    src={article.coverImage}
-                    alt={article.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
-                </div>
-                
-                <div className="p-6">
-                  <div className="flex items-center text-sm text-muted-foreground mb-3">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    {article.publishedDate}
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold mb-3 text-foreground group-hover:text-tech-blue transition-colors">
-                    {article.title}
-                  </h3>
-                  
-                  {article.description && (
-                    <p className="text-muted-foreground mb-4 line-clamp-3">
-                      {article.description}
-                    </p>
-                  )}
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {article.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="inline-flex items-center px-2 py-1 bg-tech-blue/20 text-tech-blue text-xs rounded-full font-mono"
-                      >
-                        <Tag className="h-3 w-3 mr-1" />
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <a
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center text-tech-blue hover:text-tech-green transition-colors group-hover:translate-x-1"
-                  >
-                    <span className="mr-2">Ler artigo</span>
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </div>
-              </article>
-            ))}
+            {articles.map((article, index) => {
+              const animationClass = isMobile ? 'animate-fade-in duration-300' : 'animate-in';
+              const delay = isMobile ? Math.min(index * 100, 100) : index * 200;
+              return (
+                <ArticleCard
+                  key={article.id}
+                  article={article}
+                  index={index}
+                  mobile={isMobile}
+                  visible={visibleItems.has(index)}
+                  animationClass={animationClass}
+                  delay={delay}
+                  visibleItemsCount={visibleItems.size}
+                />
+              );
+            })}
           </div>
         )}
 

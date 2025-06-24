@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, Menu, X } from 'lucide-react';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,9 +13,38 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Função para scroll suave com offset do header
+  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+
+    // Aguarda o menu fechar antes de rolar
+    setTimeout(() => {
+      const id = href.replace('#', '');
+      const el = document.getElementById(id);
+      if (el) {
+        const header = document.querySelector('header');
+        const headerHeight = header ? header.clientHeight : 0;
+        const y = el.getBoundingClientRect().top + window.scrollY - headerHeight - 8; // 8px de margem extra
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 200); // tempo suficiente para o menu sumir
+  };
+
+  // Travar scroll do body quando o menu está aberto
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.classList.add('body-no-scroll');
+    } else {
+      document.body.classList.remove('body-no-scroll');
+    }
+    return () => {
+      document.body.classList.remove('body-no-scroll');
+    };
+  }, [isMenuOpen]);
+
   const navItems = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'Sobre' },
+    { href: '#home', label: 'Sobre' },
     { href: '#projects', label: 'Projetos' },
     { href: '#case-studies', label: 'Estudos de Caso' },
     { href: '#articles', label: 'Artigos' },
@@ -28,14 +56,16 @@ const Header = () => {
     <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       isScrolled ? 'bg-background/95 backdrop-blur-md border-b border-border' : 'bg-transparent'
     }`}>
-      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center space-x-2 sm:space-x-2.5 md:space-x-4">
+      <div className="container mx-auto px-5 h-16 flex items-center justify-between pt-2">
+        <div className="flex items-center space-x-4">
           <div className="w-8 h-8 bg-gradient-to-r from-tech-blue to-tech-green rounded-md flex items-center justify-center">
             <span className="text-background font-bold text-sm">JM</span>
           </div>
-          <span className="font-semibold text-base xs:text-lg sm:text-xl md:text-2xl max-w-[120px] truncate md:max-w-none">Juliano Matheus</span>
+          <span className="font-semibold text-xs max-w-[60px] overflow-hidden truncate sm:text-sm sm:max-w-[120px] md:text-base md:max-w-none">
+            <span className="block sm:hidden">Juliano</span>
+            <span className="hidden sm:block">Juliano Matheus</span>
+          </span>
         </div>
-
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           <a href="#home" className="text-muted-foreground hover:text-foreground transition-colors">Sobre</a>
@@ -45,7 +75,6 @@ const Header = () => {
           <a href="#experience" className="text-muted-foreground hover:text-foreground transition-colors">Experiência</a>
           <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">Contato</a>
         </nav>
-
         {/* Social Links */}
         <div className="hidden md:flex items-center space-x-4">
           <a href="https://github.com/juliano1805" target="_blank" rel="noopener noreferrer" 
@@ -61,7 +90,6 @@ const Header = () => {
             <Mail size={20} />
           </a>
         </div>
-
         {/* Mobile Menu Button */}
         <button 
           className="md:hidden text-foreground"
@@ -70,22 +98,24 @@ const Header = () => {
           {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-
-      {/* Mobile Menu */}
+      {/* Menu lateral mobile fullscreen */}
       {isMenuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border">
-          <Sheet>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <nav className="flex flex-col gap-6 text-lg font-medium mt-8">
-                <a href="#home" className="hover:text-primary transition-colors">Sobre</a>
-                <a href="#projects" className="hover:text-primary transition-colors">Projetos</a>
-                <a href="#case-studies" className="hover:text-primary transition-colors">Estudos de Caso</a>
-                <a href="#articles" className="hover:text-primary transition-colors">Artigos Recentes</a>
-                <a href="#experience" className="hover:text-primary transition-colors">Experiência</a>
-                <a href="#contact" className="hover:text-primary transition-colors">Contato</a>
-              </nav>
-            </SheetContent>
-          </Sheet>
+        <div className="fixed inset-0 w-screen h-screen z-[1000] bg-neutral-900/95 backdrop-blur-md flex flex-col items-center justify-center overflow-y-auto transition-opacity duration-300">
+          <button className="absolute top-6 right-6 text-white hover:text-gray-300 transition-colors z-[1001]" onClick={() => setIsMenuOpen(false)}>
+            <X size={32} />
+          </button>
+          <nav className="flex flex-col gap-8 text-2xl font-bold w-full max-w-xs items-center z-[1001]">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="hover:text-tech-blue transition-colors text-white text-center"
+                onClick={(e) => handleMenuClick(e, item.href)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
         </div>
       )}
     </header>

@@ -1,6 +1,8 @@
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
 import { Database, Brain, Code, Cloud, BarChart3, Zap } from 'lucide-react';
 import AnimatedSVGIcon from '@/components/ui/AnimatedSVGIcon';
+import { useEffect, useState, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const AboutSection = () => {
   const { elementRef, isVisible } = useScrollAnimation({ triggerOnce: false });
@@ -40,19 +42,57 @@ const AboutSection = () => {
   
   const { containerRef, visibleItems } = useStaggerAnimation(expertiseAreas, { triggerOnce: false });
 
+  const mobile = useIsMobile();
+
+  // Componente filho para animação fade-in garantida
+  function AboutCard({ area, index, mobile, visible, animationClass, delay, visibleItemsCount }) {
+    const cardRef = useRef(null);
+    const [fadeIn, setFadeIn] = useState(false);
+    useEffect(() => {
+      if (mobile) {
+        setTimeout(() => setFadeIn(true), 50 + index * 80);
+      }
+    }, [mobile]);
+    const shouldBeVisible = mobile || visibleItemsCount === 0 || visible;
+    const cardClass = mobile
+      ? `group bg-card border border-border rounded-lg p-4 sm:p-6 shadow-lg card-stagger hover-lift opacity-0 ${fadeIn ? 'animate-fade-in opacity-100' : ''}`
+      : `group bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${shouldBeVisible ? animationClass : 'opacity-0'}`;
+    return (
+      <div
+        key={area.title}
+        data-index={index}
+        ref={cardRef}
+        className={cardClass}
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <div className="flex items-center mb-3 sm:mb-4">
+          <div className="p-3 bg-tech-blue/20 rounded-lg group-hover:bg-tech-blue/30 transition-colors duration-300">
+            <AnimatedSVGIcon 
+              IconComponent={area.icon}
+              isVisible={true}
+              size={24}
+              className="text-tech-blue"
+              animationDelay={index * 150 + 200}
+            />
+          </div>
+          <h3 className="text-lg sm:text-xl font-semibold ml-3 sm:ml-4 text-foreground">{area.title}</h3>
+        </div>
+        <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">{area.description}</p>
+      </div>
+    );
+  }
+
   return (
-    <section id="about" className="py-20 relative bg-background">
+    <section id="about" className="py-16 sm:py-20 px-5 pt-8 pb-8 relative bg-background">
       <div className="container mx-auto px-4">
         <div 
           ref={elementRef}
           className={`text-center mb-16 scroll-animate ${isVisible ? 'animate-in' : ''}`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
-              Minhas Habilidades
-            </span>
+          <h2 className="text-2xl sm:text-4xl font-bold mb-4 text-center">
+            <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">Sobre Mim</span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground text-center mb-6">
             Engenheiro de Dados apaixonado por transformar dados em insights valiosos através de soluções inovadoras em Machine Learning e automação.
           </p>
         </div>
@@ -60,32 +100,22 @@ const AboutSection = () => {
         {/* Grade de Habilidades */}
         <div 
           ref={containerRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 overflow-visible"
         >
           {expertiseAreas.map((area, index) => {
+            const animationClass = mobile ? 'animate-fade-in duration-300' : 'animate-in';
+            const delay = mobile ? Math.min(index * 100, 100) : index * 150;
             return (
-              <div
+              <AboutCard
                 key={area.title}
-                data-index={index}
-                className={`group bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${
-                  visibleItems.has(index) ? 'animate-in' : ''
-                }`}
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className="flex items-center mb-4">
-                  <div className="p-3 bg-tech-blue/20 rounded-lg group-hover:bg-tech-blue/30 transition-colors duration-300">
-                    <AnimatedSVGIcon 
-                      IconComponent={area.icon}
-                      isVisible={visibleItems.has(index)}
-                      size={24}
-                      className="text-tech-blue"
-                      animationDelay={index * 150 + 200}
-                    />
-                  </div>
-                  <h3 className="text-xl font-semibold ml-4 text-foreground">{area.title}</h3>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">{area.description}</p>
-              </div>
+                area={area}
+                index={index}
+                mobile={mobile}
+                visible={visibleItems.has(index)}
+                animationClass={animationClass}
+                delay={delay}
+                visibleItemsCount={visibleItems.size}
+              />
             );
           })}
         </div>

@@ -57,7 +57,7 @@ const HeroSection = () => {
       ></div>
       <div className="absolute bottom-1/4 left-1/4 w-3 h-3 bg-tech-green rounded-full animate-pulse delay-700 blur-sm"></div>
 
-      <div className="container mx-auto px-4 relative z-10 pb-12">
+      <div className="container mx-auto px-5 pt-10 pb-10 sm:px-6 md:px-8 relative z-10 mt-16">
         <div 
           ref={elementRef}
           className={`max-w-4xl mx-auto space-y-12 scroll-animate ${isVisible ? 'animate-in' : ''}`}
@@ -67,13 +67,13 @@ const HeroSection = () => {
             ref={titleRef}
             className={`text-center space-y-4 scroll-animate-scale ${titleVisible ? 'animate-in' : ''}`}
           >
-            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-bold">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold">
               <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
                 Juliano Matheus
               </span>
             </h1>
             
-            <div className="text-lg xs:text-xl md:text-3xl text-muted-foreground min-h-[2rem]">
+            <div className="text-base sm:text-lg md:text-2xl text-tech-blue min-h-[2rem] font-semibold">
               <TypewriterEffect 
                 words={typewriterWords}
                 speed={80}
@@ -83,13 +83,13 @@ const HeroSection = () => {
               />
             </div>
             
-            <p className="text-base xs:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            <p className="text-[16px] text-muted-foreground max-w-2xl mx-auto leading-relaxed text-center">
               Transformando dados em insights valiosos através de soluções inovadoras em Machine Learning e automação.
             </p>
           </div>
 
           {/* Botões de Ação com Efeitos Melhorados */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center w-full max-w-xs mx-auto">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center w-full max-w-xs sm:max-w-none mx-auto mt-6 mb-2">
             <Button 
               size="lg" 
               className="group hover-lift bg-gradient-to-r from-tech-blue to-tech-green text-background font-semibold w-full sm:w-auto px-6 py-3"
@@ -115,12 +115,12 @@ const HeroSection = () => {
           </div>
 
           {/* Links Sociais com Efeitos Melhorados */}
-          <div className="flex justify-center space-x-8 mt-2 mb-2">
+          <div className="flex justify-center space-x-6 mt-2 mb-2">
             <a 
               href="https://github.com/juliano1805" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="group hover-lift p-3 rounded-full bg-card border border-border hover:border-tech-blue"
+              className="group hover-lift p-3 rounded-full bg-card border border-border hover:border-tech-blue min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <Github className="h-6 w-6 text-muted-foreground group-hover:text-tech-blue transition-colors duration-300" />
             </a>
@@ -129,14 +129,14 @@ const HeroSection = () => {
               href="https://linkedin.com/in/juliano-matheus-a37745297/" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="group hover-lift p-3 rounded-full bg-card border border-border hover:border-tech-blue"
+              className="group hover-lift p-3 rounded-full bg-card border border-border hover:border-tech-blue min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <Linkedin className="h-6 w-6 text-muted-foreground group-hover:text-tech-blue transition-colors duration-300" />
             </a>
             
             <a 
               href="mailto:julianomatheusferreira@gmail.com"
-              className="group hover-lift p-3 rounded-full bg-card border border-border hover:border-tech-blue"
+              className="group hover-lift p-3 rounded-full bg-card border border-border hover:border-tech-blue min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <Mail className="h-6 w-6 text-muted-foreground group-hover:text-tech-blue transition-colors duration-300" />
             </a>

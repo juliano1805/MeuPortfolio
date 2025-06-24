@@ -223,6 +223,18 @@
     transform: translateY(0) scale(1);
   }
 
+  /* Garantir que cards com fade-in funcionem no mobile */
+  .card-stagger.animate-fade-in {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
+  /* Garantir que animate-in funcione sempre */
+  .card-stagger.animate-in {
+    opacity: 1 !important;
+    transform: translateY(0) scale(1) !important;
+  }
+
   /* Animações de Loading */
   .loading-dots {
     display: inline-block;
@@ -437,4 +449,30 @@
   ::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(45deg, #00FF88, #00D8FF);
   }
+
+  /* Animação fade-in para mobile */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Travar scroll do body quando menu mobile estiver aberto */
+.body-no-scroll {
+  overflow: hidden !important;
+}
+
+html, body {
+  height: 100%;
+  min-height: 100%;
 }

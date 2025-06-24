@@ -6,6 +6,8 @@ import { useScrollAnimation } from '@/hooks/use-scroll-animation';
 import mlopsImage from '@/assets/images/mlops-pipeline.jpg';
 import teteuImage from '@/assets/images/teteu-new.png.jpg';
 import portfolioImage from '@/assets/images/portfolio.jpg';
+import { useEffect, useState, useRef } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const FeaturedProjectsSection = () => {
   const featuredProjects = [
@@ -67,9 +69,104 @@ const FeaturedProjectsSection = () => {
 
   const { containerRef, visibleItems } = useStaggerAnimation(featuredProjects, { triggerOnce: false });
   const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation({ threshold: 0.3, triggerOnce: false });
+  const mobile = useIsMobile();
+
+  // Componente filho para animação fade-in garantida
+  function FeaturedProjectCard({ project, index, mobile, visible, animationClass, delay, visibleItemsCount }) {
+    const cardRef = useRef(null);
+    const [fadeIn, setFadeIn] = useState(false);
+    useEffect(() => {
+      if (mobile) {
+        setTimeout(() => setFadeIn(true), 50 + index * 80);
+      }
+    }, [mobile]);
+    const shouldBeVisible = mobile || visibleItemsCount === 0 || visible;
+    const cardClass = mobile
+      ? `group bg-card border border-border rounded-lg overflow-hidden hover:border-tech-blue/50 transition-all duration-500 card-stagger h-[750px] opacity-0 ${fadeIn ? 'animate-fade-in opacity-100' : ''}`
+      : `group bg-card border border-border rounded-lg overflow-hidden hover:border-tech-blue/50 transition-all duration-500 card-stagger h-[750px] ${shouldBeVisible ? animationClass : 'opacity-0'}`;
+    return (
+      <div
+        key={project.title}
+        data-index={index}
+        ref={cardRef}
+        className={cardClass}
+        style={{ animationDelay: `${delay}ms` }}
+      >
+        <div className="relative overflow-hidden h-full flex flex-col">
+          <div className="relative h-56 overflow-hidden">
+            <div className="absolute inset-0 h-full w-full group-hover:scale-110 transition-transform duration-700">
+              <img 
+                src={project.image} 
+                alt={project.title}
+                className={`w-full h-full object-cover ${project.imagePosition || 'object-top'}`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
+            </div>
+            
+            {/* Overlay com efeito de hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-tech-blue/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+          
+          <div className="flex-1 p-6 flex flex-col overflow-y-auto">
+            <h3 className="text-3xl font-bold mb-3 group-hover:text-tech-blue transition-colors duration-300">
+              {project.title}
+            </h3>
+            <p className="text-muted-foreground mb-4 text-base leading-relaxed">
+              {project.description}
+            </p>
+            
+            {project.highlights && (
+              <ul className="list-disc list-inside text-sm text-muted-foreground mb-4 space-y-2">
+                {project.highlights.map((highlight, i) => (
+                  <li key={i} className="leading-relaxed group-hover:text-foreground transition-colors duration-300">
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            )}
+            
+            <div className="flex flex-wrap gap-2 mb-4">
+              {project.technologies.map((tech) => (
+                <span 
+                  key={tech}
+                  className="px-3 py-1.5 bg-tech-blue/20 text-tech-blue text-sm rounded-lg font-mono hover:bg-tech-blue/30 transition-colors duration-300"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+            
+            <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
+              <span className="text-tech-green font-mono text-base">
+                {project.metrics}
+              </span>
+              <div className="flex gap-2">
+                {project.isExternal && (
+                  <a href={project.link} target="_blank" rel="noopener noreferrer">
+                    <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4 hover-glow">
+                      Ver no GitHub
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </a>
+                )}
+                {project.internalLink && (
+                  <Link to={project.internalLink}>
+                    <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4 hover-glow">
+                      Ver Detalhes
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <section id="projects" className="py-20 relative">
+    <section id="projects" className="py-16 sm:py-20 px-5 pt-8 pb-8">
       {/* Background decorativo */}
       <div className="absolute inset-0 opacity-20">
         <div className="tech-grid absolute inset-0"></div>
@@ -80,97 +177,33 @@ const FeaturedProjectsSection = () => {
           ref={headerRef}
           className={`text-center mb-16 scroll-animate-scale ${headerVisible ? 'animate-in' : ''}`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-4 text-center">
             <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
               Projetos
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground text-center mb-6">
             Projetos que demonstram minha expertise em MLOps e desenvolvimento de soluções de IA.
           </p>
         </div>
 
-        <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {featuredProjects.map((project, index) => (
-            <div 
-              key={project.title}
-              data-index={index}
-              className={`group bg-card border border-border rounded-lg overflow-hidden hover:border-tech-blue/50 transition-all duration-500 card-stagger h-[750px] ${
-                visibleItems.has(index) ? 'animate-in' : ''
-              }`}
-              style={{ animationDelay: `${index * 200}ms` }}
-            >
-              <div className="relative overflow-hidden h-full flex flex-col">
-                <div className="relative h-56 overflow-hidden">
-                  <div className="absolute inset-0 h-full w-full group-hover:scale-110 transition-transform duration-700">
-                    <img 
-                      src={project.image} 
-                      alt={project.title}
-                      className={`w-full h-full object-cover ${project.imagePosition || 'object-top'}`}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/50 to-transparent" />
-                  </div>
-                  
-                  {/* Overlay com efeito de hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-tech-blue/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </div>
-                
-                <div className="flex-1 p-6 flex flex-col overflow-y-auto">
-                  <h3 className="text-3xl font-bold mb-3 group-hover:text-tech-blue transition-colors duration-300">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-4 text-base leading-relaxed">
-                    {project.description}
-                  </p>
-                  
-                  {project.highlights && (
-                    <ul className="list-disc list-inside text-sm text-muted-foreground mb-4 space-y-2">
-                      {project.highlights.map((highlight, i) => (
-                        <li key={i} className="leading-relaxed group-hover:text-foreground transition-colors duration-300">
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech) => (
-                      <span 
-                        key={tech}
-                        className="px-3 py-1.5 bg-tech-blue/20 text-tech-blue text-sm rounded-lg font-mono hover:bg-tech-blue/30 transition-colors duration-300"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
-                    <span className="text-tech-green font-mono text-base">
-                      {project.metrics}
-                    </span>
-                    <div className="flex gap-2">
-                      {project.isExternal && (
-                        <a href={project.link} target="_blank" rel="noopener noreferrer">
-                          <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4 hover-glow">
-                            Ver no GitHub
-                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                          </Button>
-                        </a>
-                      )}
-                      {project.internalLink && (
-                        <Link to={project.internalLink}>
-                          <Button variant="ghost" className="group-hover:text-tech-blue text-base px-4 hover-glow">
-                            Ver Detalhes
-                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                          </Button>
-                        </Link>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-2 gap-12 overflow-visible">
+          {featuredProjects.map((project, index) => {
+            const animationClass = mobile ? 'animate-fade-in duration-300' : 'animate-in';
+            const delay = mobile ? Math.min(index * 100, 100) : index * 200;
+            return (
+              <FeaturedProjectCard
+                key={project.title}
+                project={project}
+                index={index}
+                mobile={mobile}
+                visible={visibleItems.has(index)}
+                animationClass={animationClass}
+                delay={delay}
+                visibleItemsCount={visibleItems.size}
+              />
+            );
+          })}
         </div>
       </div>
     </section>

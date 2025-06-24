@@ -1,5 +1,57 @@
 import { BarChart3, Cloud, Database, GitBranch, Monitor, Zap } from 'lucide-react';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { useEffect, useRef, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
+
+// Componente filho para animação fade-in garantida
+function CaseStudyCard({ study, index, mobile, visible, animationClass, delay, visibleItemsCount }) {
+  const cardRef = useRef(null);
+  const [fadeIn, setFadeIn] = useState(false);
+  useEffect(() => {
+    if (mobile) {
+      setTimeout(() => setFadeIn(true), 50 + index * 80);
+    }
+  }, [mobile]);
+  const shouldBeVisible = mobile || visibleItemsCount === 0 || visible;
+  const cardClass = mobile
+    ? `bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift opacity-0 ${fadeIn ? 'animate-fade-in opacity-100' : ''}`
+    : `bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${shouldBeVisible ? animationClass : 'opacity-0'}`;
+  return (
+    <div
+      key={study.id}
+      data-index={index}
+      ref={cardRef}
+      className={cardClass}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <h3 className="text-2xl font-bold text-tech-blue mb-2 group-hover:text-tech-green transition-colors">
+        {study.title}
+      </h3>
+      <p className="text-muted-foreground mb-4">{study.description}</p>
+      <h4 className="text-lg font-semibold mb-2">Desafio</h4>
+      <p className="text-foreground mb-4">{study.challenge}</p>
+      <h4 className="text-lg font-semibold mb-2">Solução</h4>
+      <p className="text-foreground mb-4">{study.solution}</p>
+      <h4 className="text-lg font-semibold mb-2">Resultados</h4>
+      <ul className="list-disc list-inside space-y-1 text-foreground mb-4">
+        {study.results.map((result, idx) => (
+          <li key={idx}>{result}</li>
+        ))}
+      </ul>
+      <h4 className="text-lg font-semibold mb-2">Tecnologias</h4>
+      <div className="flex flex-wrap gap-2">
+        {study.technologies.map((tech) => (
+          <span
+            key={tech}
+            className="px-3 py-1 bg-tech-gray-800 text-tech-blue text-sm rounded border border-tech-gray-700 font-mono hover:bg-tech-blue/20 transition-colors"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 const CaseStudiesSection = () => {
   const { elementRef, isVisible } = useScrollAnimation({ triggerOnce: false });
@@ -67,67 +119,45 @@ const CaseStudiesSection = () => {
 
   const { containerRef, visibleItems } = useStaggerAnimation(caseStudies, { triggerOnce: false });
 
+  const mobile = useIsMobile();
+
   return (
-    <section id="case-studies" className="py-20 relative bg-background">
+    <section id="case-studies" className="py-16 sm:py-20 px-5 pt-8 pb-8">
       <div className="container mx-auto px-4">
         <div 
           ref={elementRef}
           className={`text-center mb-16 scroll-animate ${isVisible ? 'animate-in' : ''}`}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-4 text-center">
             <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
               Estudos de Caso
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground text-center mb-6 max-w-3xl mx-auto">
             Análises detalhadas de projetos que demonstram metodologia, processo de desenvolvimento e resultados quantificáveis.
           </p>
         </div>
 
         <div 
           ref={containerRef}
-          className="grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-visible"
         >
-          {caseStudies.map((study, index) => (
-            <div 
-              key={study.id} 
-              data-index={index}
-              className={`bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${
-                visibleItems.has(index) ? 'animate-in' : ''
-              }`}
-              style={{ animationDelay: `${index * 200}ms` }}
-            >
-              <h3 className="text-2xl font-bold text-tech-blue mb-2 group-hover:text-tech-green transition-colors">
-                {study.title}
-              </h3>
-              <p className="text-muted-foreground mb-4">{study.description}</p>
-
-              <h4 className="text-lg font-semibold mb-2">Desafio</h4>
-              <p className="text-foreground mb-4">{study.challenge}</p>
-
-              <h4 className="text-lg font-semibold mb-2">Solução</h4>
-              <p className="text-foreground mb-4">{study.solution}</p>
-
-              <h4 className="text-lg font-semibold mb-2">Resultados</h4>
-              <ul className="list-disc list-inside space-y-1 text-foreground mb-4">
-                {study.results.map((result, idx) => (
-                  <li key={idx}>{result}</li>
-                ))}
-              </ul>
-
-              <h4 className="text-lg font-semibold mb-2">Tecnologias</h4>
-              <div className="flex flex-wrap gap-2">
-                {study.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-3 py-1 bg-tech-gray-800 text-tech-blue text-sm rounded border border-tech-gray-700 font-mono hover:bg-tech-blue/20 transition-colors"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
+          {caseStudies.map((study, index) => {
+            const animationClass = mobile ? 'animate-fade-in duration-300' : 'animate-in';
+            const delay = mobile ? Math.min(index * 100, 100) : index * 200;
+            return (
+              <CaseStudyCard
+                key={study.id}
+                study={study}
+                index={index}
+                mobile={mobile}
+                visible={visibleItems.has(index)}
+                animationClass={animationClass}
+                delay={delay}
+                visibleItemsCount={visibleItems.size}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
