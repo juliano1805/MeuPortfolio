@@ -67,13 +67,13 @@ const HeroSection = () => {
             ref={titleRef}
             className={`text-center space-y-4 scroll-animate-scale ${titleVisible ? 'animate-in' : ''}`}
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold">
               <span className="bg-gradient-to-r from-tech-blue to-tech-green bg-clip-text text-transparent">
                 Juliano Matheus
               </span>
             </h1>
             
-            <div className="text-base sm:text-lg md:text-2xl text-tech-blue min-h-[2rem] font-semibold">
+            <div className="text-lg sm:text-xl md:text-2xl text-tech-blue min-h-[2rem] font-semibold">
               <TypewriterEffect 
                 words={typewriterWords}
                 speed={80}
@@ -83,7 +83,7 @@ const HeroSection = () => {
               />
             </div>
             
-            <p className="text-[16px] text-muted-foreground max-w-2xl mx-auto leading-relaxed text-center">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-center">
               Transformando dados em insights valiosos através de soluções inovadoras em Machine Learning e automação.
             </p>
           </div>

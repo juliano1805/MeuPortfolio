@@ -50,12 +50,12 @@ const AboutSection = () => {
     const [fadeIn, setFadeIn] = useState(false);
     useEffect(() => {
       if (mobile) {
-        setTimeout(() => setFadeIn(true), 50 + index * 80);
+        setFadeIn(true);
       }
     }, [mobile]);
     const shouldBeVisible = mobile || visibleItemsCount === 0 || visible;
     const cardClass = mobile
-      ? `group bg-card border border-border rounded-lg p-4 sm:p-6 shadow-lg card-stagger hover-lift opacity-0 ${fadeIn ? 'animate-fade-in opacity-100' : ''}`
+      ? `group bg-card border border-border rounded-lg p-4 sm:p-6 shadow-lg card-stagger hover-lift ${fadeIn ? 'opacity-100' : 'opacity-0'}`
       : `group bg-card border border-border rounded-lg p-6 shadow-lg card-stagger hover-lift ${shouldBeVisible ? animationClass : 'opacity-0'}`;
     return (
       <div
@@ -63,7 +63,7 @@ const AboutSection = () => {
         data-index={index}
         ref={cardRef}
         className={cardClass}
-        style={{ animationDelay: `${delay}ms` }}
+        style={{ animationDelay: mobile ? '0ms' : `${delay}ms` }}
       >
         <div className="flex items-center mb-3 sm:mb-4">
           <div className="p-3 bg-tech-blue/20 rounded-lg group-hover:bg-tech-blue/30 transition-colors duration-300">
