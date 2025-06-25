@@ -1,12 +1,26 @@
-import { Mail, Phone, MapPin, Github, Linkedin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useScrollAnimation, useStaggerAnimation } from '@/hooks/use-scroll-animation';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 const ContactSection = () => {
   const { elementRef, isVisible } = useScrollAnimation({ triggerOnce: false });
   
+  // Estado do formulário
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  
+  // Estado de loading e feedback
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const contactMethods = [
     {
       icon: Mail,
@@ -33,6 +47,88 @@ const ContactSection = () => {
 
   const { containerRef, visibleItems } = useStaggerAnimation(contactMethods, { triggerOnce: false });
 
+  // Função para atualizar o estado do formulário
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Função para validar o formulário
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      toast.error('Por favor, insira seu nome');
+      return false;
+    }
+    if (!formData.email.trim()) {
+      toast.error('Por favor, insira seu email');
+      return false;
+    }
+    if (!formData.email.includes('@')) {
+      toast.error('Por favor, insira um email válido');
+      return false;
+    }
+    if (!formData.subject.trim()) {
+      toast.error('Por favor, insira um assunto');
+      return false;
+    }
+    if (!formData.message.trim()) {
+      toast.error('Por favor, insira uma mensagem');
+      return false;
+    }
+    if (formData.message.length < 10) {
+      toast.error('A mensagem deve ter pelo menos 10 caracteres');
+      return false;
+    }
+    return true;
+  };
+
+  // Função para enviar o email usando mailto:
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setIsLoading(true);
+    
+    try {
+      // Criar o link mailto: com os dados do formulário
+      const mailtoLink = `mailto:julianomatheusferreira@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
+        `Nome: ${formData.name}\nEmail: ${formData.email}\n\nMensagem:\n${formData.message}`
+      )}`;
+      
+      // Abrir o cliente de email padrão
+      window.location.href = mailtoLink;
+      
+      toast.success('Cliente de email aberto! Preencha e envie sua mensagem.');
+      setIsSubmitted(true);
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Erro ao abrir email:', error);
+      toast.error('Erro ao abrir cliente de email. Tente novamente.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Função para resetar o formulário
+  const handleReset = () => {
+    setIsSubmitted(false);
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
+  };
+
   return (
     <section id="contact" className="py-20 relative bg-background">
       <div className="container mx-auto px-4">
@@ -53,61 +149,110 @@ const ContactSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Formulário de Contato */}
           <div className="space-y-8 animate-slide-up" style={{ animationDelay: '100ms' }}>
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {isSubmitted ? (
+              <div className="text-center space-y-6 p-8 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                <CheckCircle className="h-16 w-16 text-green-500 mx-auto" />
+                <h3 className="text-2xl font-semibold text-green-800 dark:text-green-200">
+                  Email Aberto!
+                </h3>
+                <p className="text-green-700 dark:text-green-300">
+                  Seu cliente de email foi aberto. Preencha e envie sua mensagem!
+                </p>
+                <Button 
+                  onClick={handleReset}
+                  variant="outline"
+                  className="border-green-300 text-green-700 hover:bg-green-100 dark:border-green-700 dark:text-green-300 dark:hover:bg-green-900/30"
+                >
+                  Enviar Nova Mensagem
+                </Button>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label htmlFor="name" className="text-sm font-medium text-foreground">
+                      Nome *
+                    </label>
+                    <Input
+                      id="name"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="Seu nome"
+                      className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="email" className="text-sm font-medium text-foreground">
+                      Email *
+                    </label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="seu@email.com"
+                      className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors"
+                      required
+                    />
+                  </div>
+                </div>
+                
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-foreground">
-                    Nome
+                  <label htmlFor="subject" className="text-sm font-medium text-foreground">
+                    Assunto *
                   </label>
                   <Input
-                    id="name"
-                    placeholder="Seu nome"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    placeholder="Sobre o que você gostaria de conversar?"
                     className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors"
+                    required
                   />
                 </div>
+                
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-foreground">
-                    Email
+                  <label htmlFor="message" className="text-sm font-medium text-foreground">
+                    Mensagem *
                   </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="seu@email.com"
-                    className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors"
+                  <Textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    placeholder="Conte-me sobre seu projeto ou ideia..."
+                    rows={6}
+                    className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors resize-none"
+                    required
                   />
+                  <p className="text-xs text-muted-foreground">
+                    Mínimo 10 caracteres ({formData.message.length}/10)
+                  </p>
                 </div>
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium text-foreground">
-                  Assunto
-                </label>
-                <Input
-                  id="subject"
-                  placeholder="Sobre o que você gostaria de conversar?"
-                  className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors"
-                />
-              </div>
-              
-              <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-foreground">
-                  Mensagem
-                </label>
-                <Textarea
-                  id="message"
-                  placeholder="Conte-me sobre seu projeto ou ideia..."
-                  rows={6}
-                  className="hover-lift border-tech-gray-700 focus:border-tech-blue transition-colors resize-none"
-                />
-              </div>
-              
-              <Button 
-                className="w-full group hover-lift bg-gradient-to-r from-tech-blue to-tech-green text-background font-semibold"
-              >
-                <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                Enviar Mensagem
-              </Button>
-            </div>
+                
+                <Button 
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full group hover-lift bg-gradient-to-r from-tech-blue to-tech-green text-background font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Abrindo Email...
+                    </>
+                  ) : (
+                    <>
+                      <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      Enviar Mensagem
+                    </>
+                  )}
+                </Button>
+              </form>
+            )}
           </div>
 
           {/* Métodos de Contato */}

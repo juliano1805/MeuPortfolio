@@ -6,14 +6,14 @@ import NotFound from "./pages/NotFound";
 import MLOpsPipeline from "./pages/projects/MLOpsPipeline";
 import TETEUIA from "./pages/projects/TETEUIA";
 import Portfolio from "./pages/projects/Portfolio";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
+      <Toaster position="top-right" richColors />
       <BrowserRouter basename="/MeuPortfolio">
         <Routes>
           <Route path="/" element={<Index />} />
